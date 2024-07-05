@@ -50,7 +50,7 @@
                   <div class="control__indicator"></div>
                 </label>
                 <span class="ml-auto">
-                  <a href="/Registro-form/Registro.html" class="forgot-pass">Sin cuenta? Registrate!</a>
+                  <a href="/Registro-form/Registro.php" class="forgot-pass">Sin cuenta? Registrate!</a>
                 </span>
               </div>
               

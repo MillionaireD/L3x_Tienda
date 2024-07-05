@@ -1,3 +1,31 @@
+<?php
+// Conexión a la base de datos
+$mysqli = new mysqli("127.0.0.1", "root", "@Macabro5072001", "tienda_sistemas");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $correo = $_POST['correo'];
+    $contraseña = password_hash($_POST['contraseña'], PASSWORD_BCRYPT);
+    
+    // Verificar si el correo ya está registrado
+    $stmt = $mysqli->prepare("SELECT * FROM Usuarios WHERE correo_electrónico = ?");
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        echo "El correo ya está registrado.";
+    } else {
+        $stmt = $mysqli->prepare("INSERT INTO Usuarios (correo_electrónico, contraseña) VALUES (?, ?)");
+        $stmt->bind_param("ss", $correo, $contraseña);
+        if ($stmt->execute()) {
+            echo "Registro exitoso.";
+        } else {
+            echo "Error en el registro.";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
