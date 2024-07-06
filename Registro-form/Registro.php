@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						<h3>Registro - L3x TecnoShop</h3>
 					</span>
 
-					<a href="#" class="btn-face m-b-20">
+					<a href="https://www.facebook.com" class="btn-face m-b-20">
 						<i class="fa fa-facebook-official"></i>
 						Facebook
 					</a>
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 							Ya tienes una cuenta?
 						</span>
 
-						<a href="/login-form/Login.html" class="txt2 bo1">
+						<a href="/login-form/Login.php" class="txt2 bo1">
 							Ingresar
 						</a>
 					</div>
