@@ -1,3 +1,43 @@
+<?php
+session_start();
+include 'db.php'; // Asegúrate de incluir el archivo de conexión a la base de datos
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $correo_electronico = $_POST['email'];
+    $contraseña = $_POST['password'];
+
+    // Busca al usuario por su correo electrónico
+    $sql = "SELECT * FROM Usuarios WHERE correo_electrónico = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $correo_electronico);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        if (password_verify($contraseña, $row['contraseña'])) {
+            // Inicio de sesión exitoso, guarda datos en la sesión
+            $_SESSION['usuario_id'] = $row['ID_usuario'];
+            $_SESSION['usuario_nombre'] = $row['nombre'];
+            $_SESSION['usuario_correo'] = $row['correo_electrónico'];
+            
+            // Redirige al usuario a la página principal
+            header("Location: ../index.php"); 
+            exit();
+        } else {
+            echo "Contraseña incorrecta.";
+        }
+    } else {
+        echo "Usuario no encontrado.";
+    }
+
+    
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -29,19 +69,18 @@
         <div class="row align-items-center justify-content-center">
           <div class="col-md-7">
             <div class="mb-4">
-              <h3>Iniciar Sesión</h3>
+            <h3>Iniciar Sesión - <span style="color: red;"><a href="../index.php">L3x</a></span></h3>
               <p class="mb-4">Ingresa tus datos para acceder a la cuenta.</p>
             </div>
-            <form action="#" method="post">
-              <div class="form-group">
-                  <label for="email">Correo electrónico</label>
-                  <input type="email" class="form-control" id="email">
-              </div>
-              <div class="form-group last mb-3">
-                <label for="password">Contraseña</label>
-                <input type="password" class="form-control" id="password">
-                
-              </div>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="form-group last mb-3">
+        <label for="password">Contraseña</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
               
               <div class="d-flex mb-5 align-items-center">
                 <label class="control control--checkbox mb-0">

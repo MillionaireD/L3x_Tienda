@@ -1,0 +1,1 @@
+<?php $message = '<div class="alert alert-success" role="alert">Gracias por suscribirte a L3X TECNOSHOP. Revisa tu correo electrónico para confirmar la suscripción.</div>'; ?>
